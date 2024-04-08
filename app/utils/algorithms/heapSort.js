@@ -1,5 +1,5 @@
 import { SWAP } from '../constants';
-import {swap} from '../util';
+import {swap} from '@/app/utils/util/swap';
 
 const heapSort = async(arr, length) => {
     let m = [];
@@ -35,3 +35,5 @@ const heap = async (m, arr, length, index) => {
         await heap(m, arr, length, index);
     }
 }
+
+export default heapSort;

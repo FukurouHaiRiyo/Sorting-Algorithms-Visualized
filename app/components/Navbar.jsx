@@ -26,7 +26,7 @@ const Navbar = () => {
                 Every sorting algorithm explained
             </Link>
 
-            <Link href='#' className='text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500'>
+            <Link href='/visualizer' className='text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500'>
                 Visualize the sorting algorithms
             </Link>
 
@@ -37,7 +37,6 @@ const Navbar = () => {
 
         <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
             <Link href='#' className='text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500'>
-                Log in <span aria-hidden='true'>&rarr;</span>
             </Link>
         </div>
     </nav>

@@ -3,7 +3,9 @@ import { CHANGE_VALUE } from '../constants';
 export const mergeSort = async(arr, length) => {
     let m = [];
 
-    
+    await divide(arr, m, 0, length - 1);
+
+    return m;
 }
 
 const divide = async(arr, m, start, end) => {

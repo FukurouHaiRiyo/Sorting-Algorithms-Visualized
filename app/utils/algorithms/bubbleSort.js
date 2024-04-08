@@ -1,5 +1,5 @@
 import { SWAP } from '../constants';
-import {swap} from '../util';
+import {swap} from '@/app/utils/util/swap';
 
 const bubbleSort = async (arr, length) => {
     let m = [];
@@ -17,3 +17,4 @@ const bubbleSort = async (arr, length) => {
 
     return m;
 }
+export default bubbleSort

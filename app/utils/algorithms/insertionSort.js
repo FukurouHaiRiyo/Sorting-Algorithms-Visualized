@@ -1,5 +1,5 @@
 import { SWAP } from '../constants';
-import {swap} from '../util';
+import {swap} from '@/app/utils/util/swap';
 
 const insertionSort = async(arr, length) => {
     let m = [];
@@ -16,3 +16,5 @@ const insertionSort = async(arr, length) => {
 
     return m;
 }
+
+export default insertionSort;
