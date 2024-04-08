@@ -18,134 +18,135 @@ import getKeysCopy from '@/app/utils/key';
 import '@/app/globals.css';
 
 class Visualizer extends React.Component {
-  /*  each element in the list contains a <key, classType> where:
-      key - integer value of element,
-      classType - css class for changing color of element
-  */
-  state = {
-      list: [],
-      size: 2,
-      speed: 1,
-      algorithm: 1,
-      running: false,
-  };
+    /*  each element in the list contains a <key, classType> where:
+        key - integer value of element,
+        classType - css class for changing color of element
+    */
+    state = {
+        list: [],
+        size: 10,
+        speed: 1,
+        algorithm: 1,
+        running: false,
+    };
 
-  // for initial generation of list
-  componentDidMount() {
-      this.generateList();
-  }
+    // for initial generation of list
+    componentDidMount() {
+        this.generateList();
+    }
 
-  /* for hooking to the time instant of any change in state/event */
-  componentDidUpdate() {
-      this.onChange();
-      this.generateList();
-  }
+    /* for hooking to the time instant of any change in state/event */
+    componentDidUpdate() {
+        this.onChange();
+        this.generateList();
+    }
 
-  render() { 
-      return (
-          <React.Fragment>
-              <Navbar
-                  start = {this.start}
-                  response = {this.response}
-                  newList = {this.generateList}
-                  onChange = {this.onChange}
-              />
-              <Frame 
-                  list = {this.state.list}
-              />
-          </React.Fragment>
-      );
-  }
+    render() { 
+        return (
+            <React.Fragment>
+                <Navbar
+                    start = {this.start}
+                    response = {this.response}
+                    newList = {this.generateList}
+                    onChange = {this.onChange}
+                />
+                <Frame 
+                    list = {this.state.list}
+                />
+            </React.Fragment>
+        );
+    }
 
-  // for updating the state on changing navbar options
-  // avoid changing algorithm and size when algorithm is running
-  onChange = (value, option) => {
-      if(option === ALG && !this.state.running) {
-          this.setState({ algorithm: Number(value) });
-      }
-      else if(option === SPEED) {
-          this.setState({ speed: Number(value) });
-      }
-      else if(option === SIZE && !this.state.running) {
-          this.setState({ size: Number(value) });
-          this.generateList();
-      }
-  };
+    // for updating the state on changing navbar options
+    // avoid changing algorithm and size when algorithm is running
+    onChange = (value, option) => {
+        if(option === ALG && !this.state.running) {
+            this.setState({ algorithm: Number(value) });
+        }
+        else if(option === SPEED) {
+            this.setState({ speed: Number(value) });
+        }
+        else if(option === SIZE && !this.state.running) {
+            this.setState({ size: Number(value) });
+            this.generateList();
+        }
+    };
 
-  // generate a random list
-  generateList = (value = 0) => {
-      if((this.state.list.length !== this.state.size && !this.state.running) || Number(value) === 1) {
-          let list = generator(this.state.size);
-          this.setState({ list: list });
-      }
-};
+    // generate a random list
+    generateList = (value = 0) => {
+        if((this.state.list.length !== this.state.size && !this.state.running) || Number(value) === 1) {
+            let list = generator(this.state.size);
+            console.log(this.state.size);
+            this.setState({ list: list });
+        }
+    };
 
-  // select and run the corresponding algorithm  
-  start = async() => {
-      this.lock(true);
-      let moves = await this.getMoves(this.state.algorithm);
-      await this.visualizeMoves(moves);
-      await this.done();
-      this.lock(false);
-  };
+    // select and run the corresponding algorithm  
+    start = async() => {
+        this.lock(true);
+        let moves = await this.getMoves(this.state.algorithm);
+        await this.visualizeMoves(moves);
+        await this.done();
+        this.lock(false);
+    };
 
-  // get moves for corresponding algorithms
-  getMoves = async(Name) => {
-      let moves = [];
-      let array = await getKeysCopy(this.state.list, this.state.size);
-      if(Name === 1) {
-          moves = await bubbleSort(array, array.length);
-      }
-      if(Name === 3) {
-          moves = await insertionSort(array, array.length);
-      }
-      if(Name === 4) {
-          moves = await mergeSort(array, array.length);
-      }
-      if(Name === 5) {
-          moves = await quickSort(array, array.length);
-      }
-      if(Name === 6) {
-          moves = await heapSort(array, array.length);
-      }
-      return moves;
-  };
+    // get moves for corresponding algorithms
+    getMoves = async(Name) => {
+        let moves = [];
+        let array = await getKeysCopy(this.state.list, this.state.size);
+        if(Name === 1) {
+            moves = await bubbleSort(array, array.length);
+        }
+        if(Name === 3) {
+            moves = await insertionSort(array, array.length);
+        }
+        if(Name === 4) {
+            moves = await mergeSort(array, array.length);
+        }
+        if(Name === 5) {
+            moves = await quickSort(array, array.length);
+        }
+        if(Name === 6) {
+            moves = await heapSort(array, array.length);
+        }
+        return moves;
+    };
 
-  // for visualizing obtained moves
-  visualizeMoves = async(moves) => {
-      if(moves.length === 0) {
-          return;
-      }
-      // if move length if 4, then we have to handle range part
-      if(moves[0].length === 4) {
-          await this.visualizeMovesInRange(moves);
-      }
-      else {
-          await this.visualizeMovesBySwapping(moves);
-      }
-  };
+    // for visualizing obtained moves
+    visualizeMoves = async(moves) => {
+        if(moves.length === 0) {
+            return;
+        }
+        // if move length if 4, then we have to handle range part
+        if(moves[0].length === 4) {
+            await this.visualizeMovesInRange(moves);
+        }
+        else {
+            await this.visualizeMovesBySwapping(moves);
+        }
+    };
 
-  // for visualizing range based sorting algorithms
-  visualizeMovesInRange = async(Moves) => {
-      let prevRange = [];
-      while (Moves.length > 0 && Moves[0].length === 4) {
-          // change range only when required to avoid blinking
-          if(prevRange !== Moves[0][3]) {
-              await this.updateElementClass(prevRange, NORMAL);
-              prevRange = Moves[0][3];
-              await this.updateElementClass(Moves[0][3], CURRENT);
-          }
-          await this.updateElementValue([Moves[0][0], Moves[0][1]]);
-          Moves.shift();
-      }
-      await this.visualizeMoves(Moves);
-  };
+    // for visualizing range based sorting algorithms
+    visualizeMovesInRange = async(Moves) => {
+        let prevRange = [];
+        while (Moves.length > 0 && Moves[0].length === 4) {
+            // change range only when required to avoid blinking
+            if(prevRange !== Moves[0][3]) {
+                await this.updateElementClass(prevRange, NORMAL);
+                prevRange = Moves[0][3];
+                await this.updateElementClass(Moves[0][3], CURRENT);
+            }
+            await this.updateElementValue([Moves[0][0], Moves[0][1]]);
+            Moves.shift();
+        }
+        await this.visualizeMoves(Moves);
+    };
 
-  // for visualizing swapping based sorting algorithms
-  visualizeMovesBySwapping = async(Moves) => {
-      while(Moves.length > 0) {
-          let currMove = Moves[0];
-          // if container doesn't contains 3 elements then return
+    // for visualizing swapping based sorting algorithms
+    visualizeMovesBySwapping = async(Moves) => {
+        while(Moves.length > 0) {
+            let currMove = Moves[0];
+            // if container doesn't contains 3 elements then return
           if(currMove.length !== 3) {
               await this.visualizeMoves(Moves);
               return;
