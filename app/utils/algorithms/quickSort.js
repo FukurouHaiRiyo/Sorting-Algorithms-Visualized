@@ -1,5 +1,5 @@
 import { SWAP } from "../constants";
-import {swap} from '@/app/utils/util/swap';
+import swap from '@/app/utils/util';
 
 export const quickSort = async(array, length) => {
     let moves = [];
@@ -31,3 +31,5 @@ const partition = async(moves, array, start, end) => {
     moves.push([end, prevIndex+1, SWAP]);
     return prevIndex+1;
 };
+
+export default quickSort;

@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 
 import Algorithms from '@/pages/util/algorithms';

@@ -1,5 +1,5 @@
 import { SWAP } from '../constants';
-import {swap} from '@/app/utils/util/swap';
+import swap from '@/app/utils/util';
 
 const bubbleSort = async (arr, length) => {
     let m = [];

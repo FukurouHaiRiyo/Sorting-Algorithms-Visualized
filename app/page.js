@@ -1,5 +1,7 @@
+import Visualizer from '@/pages/visualizer';
 import Navbar from './components/Navbar';
 import Link from 'next/link';
+import './globals.css';
 
 export default function Home() {
   return (
@@ -46,7 +48,7 @@ export default function Home() {
 
                 <div className='hidden lg:flex lg:flex-1 lg:justify-end'>
                   <Link href='#' className='text-sm font-semibold leading-6 text-gray-900 hover:text-gray-500'>
-                      Log in <span aria-hidden='true'>&rarr;</span>
+                      
                   </Link>
                 </div>
               </div>

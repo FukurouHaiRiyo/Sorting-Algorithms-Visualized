@@ -47,3 +47,5 @@ export const merge = async(arr, m, start, mid, end) => {
         m.push([i, arr[i], CHANGE_VALUE, idx]);
     }
 }
+
+export default mergeSort;

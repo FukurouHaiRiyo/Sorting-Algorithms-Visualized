@@ -1,9 +1,11 @@
+'use client';
+
 import React from 'react';
-import {bubbleSort} from '@/app/utils/algorithms/bubbleSort';
-import {heapSort} from '@/app/utils/algorithms/heapSort';
-import {insertionSort} from '@/app/utils/algorithms/insertionSort';
-import { mergeSort } from '@/app/utils/algorithms/mergeSort';
-import { quickSort } from '@/app/utils/algorithms/quickSort';
+import bubbleSort from '@/app/utils/algorithms/bubbleSort.js';
+import heapSort from '@/app/utils/algorithms/heapSort.js';
+import insertionSort from '@/app/utils/algorithms/insertionSort.js';
+import  mergeSort  from '@/app/utils/algorithms/mergeSort.js';
+import  quickSort  from '@/app/utils/algorithms/quickSort.js';
 
 import Navbar from '@/app/components/AlgNav';
 import Frame from './util/frame';
@@ -13,6 +15,8 @@ import generator from '@/app/utils/generator';
 import { ALG, SPEED, SIZE, SWAP, CURRENT, NORMAL, DONE } from '@/app/utils/constants';
 import getKeysCopy from '@/app/utils/key';
 
+import '@/app/globals.css';
+
 class Visualizer extends React.Component {
   /*  each element in the list contains a <key, classType> where:
       key - integer value of element,
@@ -20,7 +24,7 @@ class Visualizer extends React.Component {
   */
   state = {
       list: [],
-      size: 10,
+      size: 2,
       speed: 1,
       algorithm: 1,
       running: false,
@@ -49,7 +53,6 @@ class Visualizer extends React.Component {
               <Frame 
                   list = {this.state.list}
               />
-              <Footer />
           </React.Fragment>
       );
   }
@@ -93,9 +96,6 @@ class Visualizer extends React.Component {
       if(Name === 1) {
           moves = await bubbleSort(array, array.length);
       }
-      if(Name === 2) {
-          moves = await selectionSort(array, array.length);
-      }
       if(Name === 3) {
           moves = await insertionSort(array, array.length);
       }
@@ -107,9 +107,6 @@ class Visualizer extends React.Component {
       }
       if(Name === 6) {
           moves = await heapSort(array, array.length);
-      }
-      if(Name === 7) {
-          moves = await twistSort(array, array.length);
       }
       return moves;
   };

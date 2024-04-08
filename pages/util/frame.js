@@ -1,11 +1,12 @@
+'use client';
 import React from 'react';
 
 // Frame Component for rendering list
 class Frame extends React.Component {
     render() { 
         return (
-            <div className=''>
-                <div className=''>
+            <div className='frame'>
+                <div className='array'>
                     {this.props.list.map((element, index) => (
                         <div
                             className = {this.getClass(element.classType)}
